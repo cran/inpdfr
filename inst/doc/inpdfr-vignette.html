@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="François Rebaudo, Institut de Recherche pour le Développement, UMR EGCE, Univ.Paris Sud-CNRS-IRD-Univ.Paris Saclay, France" />
+
+<meta name="date" content="2016-02-24" />
+
+<title>Introduction to inpdfr package</title>
+
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0A%7D%0Apre%20%7B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Introduction to inpdfr package</h1>
+<h4 class="author"><em>François Rebaudo, Institut de Recherche pour le Développement, UMR EGCE, Univ.Paris Sud-CNRS-IRD-Univ.Paris Saclay, France</em></h4>
+<h4 class="date"><em>2016-02-24</em></h4>
+</div>
+
+
+<p>The <code>inpdfr</code> package is primarily designed for analysing and comparing PDF and/or TXT documents. For this Vignette we used PDF articles from the Journal of Statistical Software available at <a href="https://www.jstatsoft.org" class="uri">https://www.jstatsoft.org</a>. Specifically we used the 10 articles from volume 68 (2015), which can be freely downloaded:</p>
+<ul>
+<li>v68i01.pdf; CovSel: An R Package for Covariate Selection When Estimating Average Causal Effects, by Jenny Häggström, Emma Persson, Ingeborg Waernbaum, Xavier de Luna.</li>
+<li>v68i02.pdf; sms: An R Package for the Construction of Microdata for Geographical Analysis, by Dimitris Kavroudakis.</li>
+<li>v68i03.pdf; Parallel Sequential Monte Carlo for Efficient Density Combination: The DeCo MATLAB Toolbox, by Roberto Casarin, Stefano Grassi, Francesco Ravazzolo, Herman K. van Dijk.</li>
+<li>v68i04.pdf; Bayesian Model Averaging Employing Fixed and Flexible Priors: The BMS Package for R, by Stefan Zeugner, Martin Feldkircher.</li>
+<li>v68i05.pdf; Bayesian Model Averaging and Jointness Measures for gretl, by Marcin Błażejowski, Jacek Kwiatkowski.</li>
+<li>v68i06.pdf; Visually Exploring Missing Values in Multivariable Data Using a Graphical User Interface, by Xiaoyue Cheng, Dianne Cook, Heike Hofmann.</li>
+<li>v68i07.pdf; equateIRT: An R Package for IRT Test Equating, by Michela Battauz.</li>
+<li>v68i08.pdf; A SAS Program Combining R Functionalities to Implement Pattern-Mixture Models, by Pierre Bunouf, Geert Molenberghs, Jean-Marie Grouin, Herbert Thijs.</li>
+<li>v68i09.pdf; POPS: A Software for Prediction of Population Genetic Structure Using Latent Regression Models, by Flora Jay, Olivier François, Eric Y. Durand, Michael G. B. Blum.</li>
+<li>v68i10.pdf; Semi-Parametric Maximum Likelihood Method for Interaction in Case-Mother Control-Mother Designs: Package SPmlficmcm, by Moliere Nguile-Makao, Alexandre Bureau.</li>
+</ul>
+<p>We used these files for the purpose of this vignette, but I encourage you to test <code>inpdfr</code> package with your own publications, or those of your lab and colleagues.</p>
+<p>The package uses XPDF (<a href="http://www.foolabs.com/xpdf/download.html" class="uri">http://www.foolabs.com/xpdf/download.html</a>) for PDF to text extraction. You need to install XPDF before using <code>inpdfr</code> package. Depending on your operating system, you may need to restart your computer after installing XPDF. If you do not want to use XPDF, you can extract the content of your PDF files with the method of your choice and then store the content in TXT files. The only function making use of XPDF is <code>getPDF</code> which can be substituted with the <code>getTXT</code> function.</p>
+<div id="using-inpdfr-from-command-line" class="section level2">
+<h2>1. Using inpdfr from command line</h2>
+<div id="obtaining-the-word-occurrence-data.frame-from-a-set-of-documents" class="section level3">
+<h3>1.1 Obtaining the word-occurrence data.frame from a set of documents</h3>
+<div id="extracting-text-from-pdf" class="section level4">
+<h4>1.1.1. Extracting text from PDF</h4>
+<p>To extract text from PDF files, you need to specify the directory where your files are located:</p>
+<pre><code>mywd &lt;- &quot;/home/user/myWD/JSS/&quot;</code></pre>
+<p>Then list your PDF files using <code>getListFiles</code> function:</p>
+<pre><code>listFilesExt &lt;- getListFiles(mywd)
+#&gt; $pdf
+#&gt; [1] &quot;v68i01.pdf&quot; &quot;v68i02.pdf&quot; &quot;v68i03.pdf&quot; &quot;v68i04.pdf&quot; 
+#&gt; [5] &quot;v68i05.pdf&quot; &quot;v68i06.pdf&quot; &quot;v68i07.pdf&quot; &quot;v68i08.pdf&quot; 
+#&gt; [9] &quot;v68i09.pdf&quot; &quot;v68i10.pdf&quot;
+#&gt;
+#&gt; $txt
+#&gt; NULL</code></pre>
+<p>To extract text from PDF files, use the <code>getPDF</code> function:</p>
+<pre><code>wordFreqPDF &lt;- getPDF(myPDFs = listFilesExt$pdf)
+#&gt; [[1]]$wc
+#&gt;        freq    stem    word
+#&gt; 626     264     the     the
+#&gt; 32      141     and     and
+#&gt; ...     ...     ...     ...
+#&gt;
+#&gt; [[1]]$name
+#&gt; [1] &quot;v68i01&quot;
+#&gt;
+#&gt; ...</code></pre>
+<p>You will get a list where each element corresponds to a list composed of a data.frame (freq = word frequency; stem = stem word; word = word) and the name of the original PDF file without the extension. If you also have TXT files, you can use the <code>getTXT</code> function which works similarly. To merge the results of the PDF and TXT extraction, use the <code>append</code> function as shown bellow:</p>
+<pre><code>wordFreqPDF &lt;- getPDF(myPDFs = listFilesExt$pdf)
+wordFreqTXT &lt;- getTXT(myTXTs = listFilesExt$txt)
+wordFreq &lt;- append(wordFreqPDF, wordFreqTXT)</code></pre>
+</div>
+<div id="excluding-stop-words" class="section level4">
+<h4>1.1.2. Excluding stop words</h4>
+<p>In order to exclude stop words, use the <code>excludeStopWords</code> function which takes the list previously created and the language as arguments:</p>
+<pre><code>wordFreq &lt;- excludeStopWords(wordF = wordFreq, lang = &quot;English&quot;)
+#&gt; [[1]]$wc
+#&gt;        freq      stem         word
+#&gt; 135     101    covari   covariates
+#&gt; 144      46      data         data
+#&gt; ...     ...       ...          ...
+#&gt;
+#&gt; [[1]]$name
+#&gt; [1] &quot;v68i01&quot;
+#&gt;
+#&gt; ...</code></pre>
+<p>In our case, “the” and “and” where supressed from the data.frame.</p>
+</div>
+<div id="truncation-of-the-number-of-words" class="section level4">
+<h4>1.1.3. Truncation of the number of words</h4>
+<p>Optionally, you can truncate the number of words in each data.frame using the <code>truncNumWords</code> function:</p>
+<pre><code>wordFreq &lt;- truncNumWords(maxWords = Inf, wordF = wordFreq)</code></pre>
+<p>Specifying <code>maxWords = Inf</code> won’t truncate the data.frames.</p>
+</div>
+<div id="merging-data.frames" class="section level4">
+<h4>1.1.4. Merging data.frames</h4>
+<p>To obtain a word occurence data.frame, each element of the wordFreq list must be merged. This operation is performed with the <code>mergeWordFreq</code> function:</p>
+<pre><code>mergedD &lt;- mergeWordFreq(wordF = wordFreq)
+#&gt;                         word v68i01 v68i02 v68i03 v68i04 v68i05  ...
+#&gt; stem2076               model     11     25     89    420    253  ...
+#&gt; stem722                 data     46     95     11     43     18  ...
+#&gt; ...</code></pre>
+</div>
+<div id="quick-function" class="section level4">
+<h4>1.1.5. Quick function</h4>
+<p>All theses tasks can be performed with the <code>getwordOccuDF</code> function which takes the working directory and the language as arguments:</p>
+<pre><code>mergedD &lt;- getwordOccuDF(mywd = &quot;/home/user/myWD/JSS/&quot;, language = &quot;English&quot;)</code></pre>
+</div>
+</div>
+<div id="computing-a-set-of-analysis-from-the-word-occurrence-data.frame" class="section level3">
+<h3>1.2. Computing a set of analysis from the word-occurrence data.frame</h3>
+<p>A folder named “RESULTS” is created in your working directory and contains the output files for each analysis performed.</p>
+<div id="simple-manipulations-of-the-word-occurrence-data.frame" class="section level4">
+<h4>1.2.1. Simple manipulations of the word occurrence data.frame</h4>
+<p>Simple manipulations can be easily performed from the word occurrence data.frame. The number of words (excluding stop words) can be computed as following:</p>
+<pre><code>numWords &lt;- apply(mergedD[,2:ncol(mergedD)], MARGIN = 2, FUN = sum)</code></pre>
+<p>Or the number of unique words:</p>
+<pre><code>numUniqueWords &lt;- apply(mergedD[,2:ncol(mergedD)], 
+    MARGIN = 2, FUN = function(i) {length(i[i &gt; 0])})</code></pre>
+<p>Considering the number of words as an “area”, and the number of unique words as “species”, we can easily build a “species-area relationships” analysis (which is commonly Log-Log transformed):</p>
+<pre><code>plot(x = log(numWords), y = log(numUniqueWords), pch = 16)
+text(x = log(numWords), y = log(numUniqueWords), 
+    labels=names(mergedD[,2:ncol(mergedD)]), cex= 0.7,pos = 3)
+lmSAR &lt;- lm(log(numUniqueWords) ~ log(numWords))
+summary(lmSAR)
+abline(lmSAR)
+#&gt; Call:
+#&gt; lm(formula = log(numUniqueWords) ~ log(numWords))
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -0.31186 -0.03016  0.02944  0.05401  0.15724 
+#&gt; 
+#&gt; Coefficients:
+#&gt;               Estimate Std. Error t value Pr(&gt;|t|)   
+#&gt; (Intercept)     1.4693     1.2606   1.166  0.27738   
+#&gt; log(numWords)   0.6246     0.1524   4.099  0.00344 **
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Residual standard error: 0.1316 on 8 degrees of freedom
+#&gt; Multiple R-squared:  0.6775, Adjusted R-squared:  0.6372 
+#&gt; F-statistic:  16.8 on 1 and 8 DF,  p-value: 0.003441</code></pre>
+<p>The slope is significantly different from zero, so that longer articles have a higher specific richness in terms of number of unique words. Additional analyses from this perspective can be found in numerous R ecological packages. A good place to start is the <code>vegan</code> package.</p>
+</div>
+<div id="word-cloud" class="section level4">
+<h4>1.2.2. Word cloud</h4>
+<p>Assuming your word occurrence data.frame is named “mergedD”, you can compute word clouds with the <code>makeWordcloud</code> function. The getPlot argument controls which word clouds should be computed. If getPlot[1] == TRUE, then a word cloud is made for each file. If getPlot[2] == TRUE, then a word cloud is made for the set of documents.</p>
+<pre><code>makeWordcloud(wordF = mergedD, wcminFreq = 50, wcmaxWords = Inf, 
+    wcRandOrder = FALSE, wcCol = RColorBrewer::brewer.pal(8,&quot;Dark2&quot;), 
+    getPlot = c(FALSE,TRUE))</code></pre>
+</div>
+<div id="summary-statistics" class="section level4">
+<h4>1.2.3. Summary statistics</h4>
+<p>The function <code>getSummaryStatsBARPLOT</code> allows you to compute a barplot of the number of unique words per document. It returns the number of unique words per document.</p>
+<pre><code>getSummaryStatsBARPLOT(wordF = mergedD)
+#&gt; [1]  597  800  969 1019  838  788  541  822  823  568</code></pre>
+<p>The function <code>getSummaryStatsHISTO</code> allows you to compute an histogram of the number of word per document.</p>
+<pre><code>getSummaryStatsHISTO(wordF = mergedD)</code></pre>
+<p>The function <code>getSummaryStatsOCCUR</code> allows you to compute a scatter plot with the proportion of documents using similar words, and returns the corresponding table.</p>
+<pre><code>getSummaryStatsOCCUR(wordF = mergedD)
+#&gt;    dfTableP[, 3] dfTableP[, 2]
+#&gt; 1        (0,0.1]          2296
+#&gt; 2      (0.1,0.2]           467
+#&gt; 3      (0.2,0.3]           217
+#&gt; 4      (0.3,0.4]           142
+#&gt; 5      (0.4,0.5]           128
+#&gt; 6      (0.5,0.6]           101
+#&gt; 7      (0.6,0.7]            58
+#&gt; 8      (0.7,0.8]            67
+#&gt; 9      (0.8,0.9]            62
+#&gt; 10       (0.9,1]            57</code></pre>
+<p>In our example, we can see that 57 words were used in 90 to 100% of the articles, or that 58 words were used in 60 to 70% of the articles, while 2296 words were specific to an article. Comparison with a special issue should give a different repartition with more words common to all articles.</p>
+</div>
+<div id="word-frequency" class="section level4">
+<h4>1.2.4. Word frequency</h4>
+<p>The function <code>getMostFreqWord</code> returns the most frequent words in the word occurrence data.frame. It also compute a scatter plot with the frequency of each word for each document.</p>
+<pre><code>getMostFreqWord(wordF = mergedD, numWords = 10)
+#&gt; [1] &quot;model&quot;    &quot;data&quot;     &quot;prior&quot;        &quot;package&quot;  &quot;variable&quot;
+#&gt; [6]  &quot;test&quot;  &quot;values&quot;  &quot;estimate&quot;    &quot;statistical&quot;       &quot;set&quot;</code></pre>
+<p>You may want to normalize the frequency by the number of words in each document. This can be easily done (in our example, the most frequent words are the same, but the corresponding scatter plots differ):</p>
+<pre><code>mergedDNorm &lt;- data.frame(word = as.character(mergedD[,1]), 
+    t(t(mergedD[,2:ncol(mergedD)]) / 
+    apply(mergedD[,2:ncol(mergedD)], MARGIN=2, FUN=sum)) 
+    * 100)
+getMostFreqWord(wordF = mergedDNorm, numWords = 10)
+#&gt; [1] &quot;model&quot;    &quot;data&quot;     &quot;prior&quot;        &quot;package&quot;  &quot;variable&quot;
+#&gt; [6]  &quot;test&quot;  &quot;values&quot;  &quot;estimate&quot;    &quot;statistical&quot;       &quot;set&quot;</code></pre>
+<p>The function <code>getMostFreqWordCor</code> compute the correlation between most frequent words. Images of the correlation matrices are also provided in the “RESULTS” folder. In our set of PDFs, we can see for example that “model” is significantly correlated with “prior”, or that “statistical” is significantly correlated with “varaible”:</p>
+<pre><code>getMostFreqWordCor(wordF = mergedD, numWords = 10)
+#&gt; $cor
+#&gt;                  model       data      prior      package   variable ...
+#&gt; model        1.0000000 -0.3835130  0.9564451  0.194231566  0.2746420 ...
+#&gt; data        -0.3835130  1.0000000 -0.2039196  0.108141861  0.5050901 ...
+#&gt; prior        0.9564451 -0.2039196  1.0000000  0.188332000  0.2856416 ...
+#&gt; package      0.1942316  0.1081419  0.1883320  1.000000000  0.4097255 ...
+#&gt; variable     0.2746420  0.5050901  0.2856416  0.409725475  1.0000000 ...
+#&gt; test        -0.1517949 -0.3209755 -0.1651302  0.278446147 -0.3004002 ...
+#&gt; values      -0.3621747  0.5553868 -0.3198548 -0.232902022  0.5250301 ...
+#&gt; estimate    -0.1736209 -0.3753552 -0.1576511 -0.009370034 -0.5549054 ...
+#&gt; statistical  0.4792956  0.2101346  0.5621689  0.183642865  0.6776569 ...
+#&gt; set          0.2755856 -0.2963624  0.2279321 -0.130621530  0.2758461 ...
+#&gt; 
+#&gt; $pval
+#&gt;                    model       data        prior   package   variable ...
+#&gt; model       0.000000e+00 0.27394969 1.493632e-05 0.5907879 0.44252229 ...
+#&gt; data        2.739497e-01 0.00000000 5.720168e-01 0.7661868 0.13646367 ...
+#&gt; prior       1.493632e-05 0.57201681 0.000000e+00 0.6023278 0.42369314 ...
+#&gt; package     5.907879e-01 0.76618681 6.023278e-01 0.0000000 0.23963804 ...
+#&gt; variable    4.425223e-01 0.13646367 4.236931e-01 0.2396380 0.00000000 ...
+#&gt; test        6.754944e-01 0.36584180 6.484673e-01 0.4359677 0.39903200 ...
+#&gt; values      3.037403e-01 0.09557406 3.676131e-01 0.5172745 0.11916335 ...
+#&gt; estimate    6.314473e-01 0.28514377 6.635822e-01 0.9795048 0.09592275 ...
+#&gt; statistical 1.610148e-01 0.56009587 9.074744e-02 0.6115571 0.03130403 ...
+#&gt; set         4.408923e-01 0.40570937 5.265050e-01 0.7190909 0.44044280 ...</code></pre>
+<p>The function <code>getXFreqWord</code> returns the words which have been found at leat X times in the set of documents.</p>
+<pre><code>getXFreqWord(wordF = mergedD, occuWords = 200)
+#&gt;  [1] &quot;model&quot;       &quot;data&quot;        &quot;prior&quot;      
+#&gt;  [4] &quot;package&quot;     &quot;variable&quot;    &quot;test&quot;       
+#&gt;  [7] &quot;values&quot;      &quot;estimate&quot;    &quot;statistical&quot;
+#&gt; [10] &quot;set&quot;         &quot;miss&quot;        &quot;parameter&quot;  
+#&gt; [13] &quot;covariance&quot;  &quot;coefficient&quot; &quot;imputation&quot; 
+#&gt; [16] &quot;number&quot;      &quot;journal&quot;     &quot;equating&quot;   
+#&gt; [19] &quot;function&quot;    &quot;results&quot;     &quot;method&quot;     
+#&gt; [22] &quot;software&quot;    &quot;average&quot; </code></pre>
+</div>
+<div id="correspondance-analysis" class="section level4">
+<h4>1.2.5. Correspondance analysis</h4>
+<p>The function <code>doCA</code> performs a correspondance analysis on the basis of the word occurrence data.frame, with the associated plot.</p>
+<pre><code>doCA(wordF = mergedD)
+#&gt;  Principal inertias (eigenvalues):
+#&gt;            1        2        3        4        5        6        7        ...
+#&gt; Value      0.500619 0.472982 0.442737 0.411129 0.401536 0.389836 0.374116 ...
+#&gt; Percentage 13.83%   13.07%   12.24%   11.36%   11.1%    10.77%   10.34%   ...
+#&gt; 
+#&gt; Rows:
+#&gt; ...
+#&gt; 
+#&gt;  Columns:
+#&gt;            v68i01   v68i02    v68i03    v68i04    v68i05   v68i06 ...
+#&gt; Mass     0.062176 0.095228  0.126130  0.165061  0.104936 0.097500 ...
+#&gt; ChiDist  2.405088 2.046214  1.685774  1.438954  1.636650 1.864347 ...
+#&gt; Inertia  0.359653 0.398717  0.358441  0.341773  0.281083 0.338890 ...
+#&gt; Dim. 1  -0.011166 0.768156  0.513466  0.475236  0.383365 0.238685 ...
+#&gt; Dim. 2   0.794833 1.180390 -0.146855 -1.655962 -1.109124 0.946243 ...</code></pre>
+</div>
+<div id="cluster-analysis" class="section level4">
+<h4>1.2.6. Cluster analysis</h4>
+<p>The function <code>doCluster</code> performs a cluster analysis with the associated dendrogram.</p>
+<pre><code>doCluster(wordF = mergedD, myMethod = &quot;ward.D2&quot;, gp = FALSE, nbGp = 3)
+#&gt; Call:
+#&gt; stats::hclust(...)
+#&gt; 
+#&gt; Cluster method   : ward.D2 
+#&gt; Distance         : euclidean 
+#&gt; Number of objects: 10</code></pre>
+</div>
+<div id="k-means-cluster-analysis" class="section level4">
+<h4>1.2.7. K-means cluster analysis</h4>
+<p>The function <code>doKmeansClust</code> performs a k-means cluster analysis with the associated cluster plot.</p>
+<pre><code>doKmeansClust(wordF = mergedD, nbClust = 4, nbIter = 10, algo = &quot;Hartigan-Wong&quot;)
+#&gt; K-means clustering with 4 clusters of sizes 1, 2, 6, 1
+#&gt; 
+#&gt; Cluster means:
+#&gt;     v68i01   v68i02   v68i03   v68i04   v68i05   v68i06   v68i07 ...
+#&gt; 1 501.5376 549.1102 589.0849 738.2107 569.1072 593.9343   0.0000 ...
+#&gt; 2 392.8950 422.6009 221.9471 526.7186 221.9471 484.8954 579.0960 ...
+#&gt; 3 257.0480 290.6130 431.3375 632.9743 418.1930 320.8966 536.3371 ...
+#&gt; 4 622.2564 641.1404 632.0633   0.0000 421.3739 680.6240 738.2107 ...
+#&gt; 
+#&gt; Clustering vector:
+#&gt; v68i01 v68i02 v68i03 v68i04 v68i05 v68i06 v68i07 v68i08 v68i09 v68i10 
+#&gt;      3      3      2      4      2      3      1      3      3      3 
+#&gt; 
+#&gt; Within cluster sum of squares by cluster:
+#&gt; [1]      0.0 220295.9 672154.6      0.0
+#&gt;  (between_SS / total_SS =  67.2 %)
+#&gt; 
+#&gt; Available components:
+#&gt; 
+#&gt; [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot; ...</code></pre>
+</div>
+<div id="metacommunity-analysis-with-entropart" class="section level4">
+<h4>1.2.8. Metacommunity analysis with entropart</h4>
+<p>Discussing the analyses performed here are out of the scope of this vignette. Briefly, the function <code>doMetacomEntropart</code> uses the <code>entropart</code> package and the functions <code>DivEst</code>, <code>DivPart</code>, <code>DivProfile</code>, and <code>MetaCommunity</code>. Results are provided as plots or TXT files in the “RESULTS” folder. Words are considered as species, word occurrences as abundances, and documents as communities.</p>
+<pre><code>doMetacomEntropart(wordF = mergedD)
+#&gt; Meta-community (class 'MetaCommunity') made of 25170 individuals in 10 
+#&gt; communities and 3595 species. 
+#&gt; 
+#&gt; Its sample coverage is 0.973223513822329 
+#&gt; 
+#&gt; Community weights are: 
+#&gt; v68i01 v68i02 v68i03 v68i04 v68i05 v68i06 v68i07 v68i08 v68i09 v68i10 
+#&gt;    0.1    0.1    0.1    0.1    0.1    0.1    0.1    0.1    0.1    0.1 
+#&gt; Community sample numbers of individuals are: 
+#&gt; v68i01 v68i02 v68i03 v68i04 v68i05 v68i06 v68i07 v68i08 v68i09 v68i10 
+#&gt;   2517   3855   5106   6682   4248   3947   3723   4334   3439   2631 
+#&gt; Community sample coverages are: 
+#&gt;    v68i01    v68i02    v68i03    v68i04    v68i05    v68i06    v68i07 ...
+#&gt; 0.9070729 0.9250581 0.9265726 0.9440365 0.9268099 0.9176794 0.9444160 ...
+#&gt; 
+#&gt; ...</code></pre>
+</div>
+<div id="metacommunity-analysis-with-metacom" class="section level4">
+<h4>1.2.9. Metacommunity analysis with metacom</h4>
+<p>Discussing the analyses performed here are out of the scope of this vignette. Briefly, the function <code>doMetacomMetacom</code> uses the <code>metacom</code> package and the <code>metacom</code> function. Just like before, words are considered as species, word occurrences as abundances, and documents as communities (allowing the metacommunity analysis).</p>
+<pre><code>doMetacomMetacom(wordF = mergedD, numSim = 10, limit = &quot;Inf&quot;)
+#&gt; [1] &quot;Identified community structure: Random&quot;
+#&gt; $Comm
+#&gt; ...
+#&gt; 
+#&gt; $Coherence
+#&gt;                               output
+#&gt; embedded absences              20251
+#&gt; z                   1.91875604260688
+#&gt; pval              0.0550152153018832
+#&gt; sim.mean                     22109.1
+#&gt; sim.sd              968.387829791809
+#&gt; method                            r1
+#&gt; 
+#&gt; $Turnover
+#&gt;                           output
+#&gt; replacements             5961653
+#&gt; z              -2.67166401618644
+#&gt; pval         0.00754761772110864
+#&gt; sim.mean               3470121.1
+#&gt; sim.sd           932576.80790133
+#&gt; method                        r1
+#&gt; 
+#&gt; $Boundary
+#&gt;   index         P   df
+#&gt; 1     0 0.4234722 3592</code></pre>
+</div>
+<div id="quick-function-1" class="section level4">
+<h4>1.2.10. Quick function</h4>
+<p>All theses tasks can be performed with the <code>getAllAnalysis</code> function which takes the word-occurrence data.frame as argument:</p>
+<pre><code>getAllAnalysis(dataset = mergedD)</code></pre>
+</div>
+</div>
+</div>
+<div id="using-inpdfr-from-the-graphical-user-interface-gui" class="section level2">
+<h2>2. Using inpdfr from the Graphical User Interface (GUI)</h2>
+<p>To load the RGtk2 GUI, use the function <code>loadGUI</code>:</p>
+<pre><code>loadGUI()</code></pre>
+<p>All function used to build the GUI were made available so that any developer can easily access its content. They are not intended to be used by end users, but given the scarcity of RGtk2 resources in the web, I thought they should be available in this package in the hope they could be usefull for other projects. Please feel free to use them under the terms of the package licence, but do not expect backward compatibility in future versions of this package. These functions are listed below:</p>
+<ul>
+<li>askQuit</li>
+<li>checkEntry</li>
+<li>makeMainWindowsContent</li>
+<li>makeMenuMainWindow</li>
+<li>open_cb</li>
+<li>open_cbFile</li>
+<li>switchOnDialogWait</li>
+<li>switchOffDialogWait</li>
+</ul>
+</div>
+<div id="going-further" class="section level2">
+<h2>3. Going further</h2>
+<p>From this point, considering words as species, word occurrences as abundances, and documents as communities, an incredible amount of analyses from theoretical ecology are available in R. Some examples are Rank-abundance curve, Species-Area Relationships, or Single large or Several small analyses. All of them provide interesting points to compare and analyse sets of documents.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
