@@ -5,7 +5,8 @@
 \title{Performs an analysis of ecological diversity and structure.}
 \usage{
 doMetacomEntropart(wordF, getPlot = c(TRUE, TRUE, TRUE, TRUE),
-  getTextSink = c(TRUE, TRUE, TRUE, TRUE), mwidth = 800, mheight = 800)
+  getTextSink = c(TRUE, TRUE, TRUE, TRUE), mwidth = 800, mheight = 800,
+  formatType = "png")
 }
 \arguments{
 \item{wordF}{The data.frame containing word occurrences.}
@@ -27,6 +28,8 @@ the \code{DivProfile} analisis is saved in the RESULTS directory.}
 \item{mwidth}{The width of the plot in pixels.}
 
 \item{mheight}{The height of the plot in pixels.}
+
+\item{formatType}{The format for the output file ("eps", "pdf", "png", "svg", "tiff", "jpeg", "bmp").}
 }
 \value{
 A \code{MetaCommunity} object (see \code{\link[entropart]{entropart-package}}).
@@ -36,8 +39,22 @@ Uses the \code{\link[entropart]{entropart-package}} to analyse the word-occurren
    considering words as species and documents as communities.
 }
 \examples{
-\dontrun{
-doMetacomEntropart(wordF=myDF)
-}
+data("loremIpsum")
+loremIpsum01 <- loremIpsum[1:100]
+loremIpsum02 <- loremIpsum[101:200]
+loremIpsum03 <- loremIpsum[201:300]
+loremIpsum04 <- loremIpsum[301:400]
+loremIpsum05 <- loremIpsum[401:500]
+subDir <- "RESULTS"
+dir.create(file.path(getwd(), subDir), showWarnings = FALSE)
+write(x = loremIpsum01, file = "RESULTS/loremIpsum01.txt")
+write(x = loremIpsum02, file = "RESULTS/loremIpsum02.txt")
+write(x = loremIpsum03, file = "RESULTS/loremIpsum03.txt")
+write(x = loremIpsum04, file = "RESULTS/loremIpsum04.txt")
+write(x = loremIpsum05, file = "RESULTS/loremIpsum05.txt")
+wordOccuDF <- getwordOccuDF(mywd = paste0(getwd(), "/RESULTS"), 
+  excludeSW = FALSE)
+file.remove(list.files(pattern = "loremIpsum"))
+doMetacomEntropart(wordF = wordOccuDF)
 }
 

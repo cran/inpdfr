@@ -18,87 +18,131 @@
 #'    the \code{DivProfile} analisis is saved in the RESULTS directory.
 #' @param mwidth The width of the plot in pixels.
 #' @param mheight The height of the plot in pixels.
+#' @param formatType The format for the output file ("eps", "pdf", "png", "svg", "tiff", "jpeg", "bmp").
 #' @return A \code{MetaCommunity} object (see \code{\link[entropart]{entropart-package}}).
 #' @examples
-#' \dontrun{
-#' doMetacomEntropart(wordF=myDF)
-#' }
+#' data("loremIpsum")
+#' loremIpsum01 <- loremIpsum[1:100]
+#' loremIpsum02 <- loremIpsum[101:200]
+#' loremIpsum03 <- loremIpsum[201:300]
+#' loremIpsum04 <- loremIpsum[301:400]
+#' loremIpsum05 <- loremIpsum[401:500]
+#' subDir <- "RESULTS"
+#' dir.create(file.path(getwd(), subDir), showWarnings = FALSE)
+#' write(x = loremIpsum01, file = "RESULTS/loremIpsum01.txt")
+#' write(x = loremIpsum02, file = "RESULTS/loremIpsum02.txt")
+#' write(x = loremIpsum03, file = "RESULTS/loremIpsum03.txt")
+#' write(x = loremIpsum04, file = "RESULTS/loremIpsum04.txt")
+#' write(x = loremIpsum05, file = "RESULTS/loremIpsum05.txt")
+#' wordOccuDF <- getwordOccuDF(mywd = paste0(getwd(), "/RESULTS"), 
+#'   excludeSW = FALSE)
+#' file.remove(list.files(pattern = "loremIpsum"))
+#' doMetacomEntropart(wordF = wordOccuDF)
 #' @export
 #' @importFrom entropart DivPart
 #' @importFrom entropart DivEst
 #' @importFrom entropart DivProfile
-doMetacomEntropart<-function(wordF,getPlot=c(TRUE,TRUE,TRUE,TRUE),getTextSink=c(TRUE,TRUE,TRUE,TRUE),mwidth=800,mheight=800){
-
+doMetacomEntropart <- function(wordF, getPlot = c(TRUE, TRUE, TRUE, TRUE), 
+  getTextSink = c(TRUE, TRUE, TRUE, TRUE), mwidth = 800, mheight = 800, formatType = "png"){
+  ## create RESULTS folder
   subDir <- "RESULTS"
   dir.create(file.path(getwd(), subDir), showWarnings = FALSE)
+  ## make entropart analysis
+  metacomDB <- wordF
+  names(metacomDB)[1] <- "Species"
+  metaCom <- entropart::MetaCommunity(Abundances = metacomDB[,2:length(wordF[1,])])
 
-  metacomDB<-wordF
-  names(metacomDB)[1]<-"Species"
-  metaCom<-entropart::MetaCommunity(Abundances=metacomDB[,2:length(wordF[1,])])
-
-  if(getPlot[1]==TRUE){
-    grDevices::png(filename="RESULTS/entropart_MetaCom.png",width = mwidth, height = mheight)
-      try(graphics::plot(metaCom),silent=TRUE)
-    grDevices::dev.off()
+  if(getPlot[1] == TRUE){
+    R.devices::devEval(type = formatType, name = "entropart_MetaCom",
+      aspectRatio = mheight / mwidth,
+      scale = do.call(function(){if((mheight / mwidth) <= 1) {
+        x <- max(mheight / 480, mwidth / 480)} else {
+          x <- min(mheight / 480, mwidth / 480)}
+        return(x)}, list())
+      , path = file.path(getwd(), subDir), {
+        try(graphics::plot(metaCom), silent = TRUE)
+      }
+    )
   }
 
-  if(getTextSink[1]==TRUE){
+  if(getTextSink[1] == TRUE){
     sink('RESULTS/entropart_MetaCom.txt')
       cat('\n#######################\n### SUMMARY         ###\n#######################\n')
-      try(summary(metaCom),silent=TRUE)
+      try(summary(metaCom), silent = TRUE)
       cat('\n#######################\n### RESULTS         ###\n#######################\n')
-      try(print(metaCom),silent=TRUE)
+      try(print(metaCom), silent = TRUE)
     sink()
   }
 
-  mDP<-DivPart(MC=metaCom) # Diversity partition
+  mDP <- DivPart(MC = metaCom) # Diversity partition
 
-  if(getPlot[2]==TRUE){
-    grDevices::png(filename="RESULTS/entropart_DivPart.png",width = mwidth, height = mheight)
-      try(graphics::plot(mDP),silent=TRUE)
-    grDevices::dev.off()
+  if(getPlot[2] == TRUE){
+    R.devices::devEval(type = formatType, name = "entropart_DivPart",
+     aspectRatio = mheight / mwidth,
+     scale = do.call(function(){if((mheight / mwidth) <= 1) {
+       x <- max(mheight / 480, mwidth / 480)} else {
+         x <- min(mheight / 480, mwidth / 480)}
+       return(x)}, list())
+     , path = file.path(getwd(), subDir), {
+      try(graphics::plot(mDP), silent = TRUE)
+     }
+    )
   }
 
-  if(getTextSink[2]==TRUE){
+  if(getTextSink[2] == TRUE){
     sink('RESULTS/entropart_DivPart.txt')
       cat('\n#######################\n### SUMMARY         ###\n#######################\n')
-      try(summary(mDP),silent=TRUE)
+      try(summary(mDP), silent = TRUE)
       cat('\n#######################\n### RESULTS         ###\n#######################\n')
-      try(print(mDP),silent=TRUE)
+      try(print(mDP), silent = TRUE)
     sink()
   }
 
-  mDE<-DivEst(MC=metaCom) # Diversity estimation
+  mDE <- DivEst(MC = metaCom) # Diversity estimation
 
-  if(getPlot[3]==TRUE){
-    grDevices::png(filename="RESULTS/entropart_DivEst.png",width = mwidth, height = mheight)
-      try(graphics::plot(mDE),silent=TRUE)
-    grDevices::dev.off()
+  if(getPlot[3] == TRUE){
+    R.devices::devEval(type = formatType, name = "entropart_DivEst",
+     aspectRatio = mheight / mwidth,
+     scale = do.call(function(){if((mheight / mwidth) <= 1) {
+       x <- max(mheight / 480, mwidth / 480)} else {
+         x <- min(mheight / 480, mwidth / 480)}
+       return(x)}, list())
+     , path = file.path(getwd(), subDir), {
+      try(graphics::plot(mDE), silent = TRUE)
+     }
+    )
   }
 
-  if(getTextSink[3]==TRUE){
+  if(getTextSink[3] == TRUE){
     sink('RESULTS/entropart_DivEst.txt')
       cat('\n#######################\n### SUMMARY         ###\n#######################\n')
-      try(summary(mDE),silent=TRUE)
+      try(summary(mDE), silent = TRUE)
       cat('\n#######################\n### RESULTS         ###\n#######################\n')
-      try(print(mDE),silent=TRUE)
+      try(print(mDE), silent = TRUE)
     sink()
   }
 
-  mDProf<-DivProfile(MC=metaCom) # Diversity profiles
+  mDProf <- DivProfile(MC = metaCom) # Diversity profiles
 
-  if(getPlot[4]==TRUE){
-    grDevices::png(filename="RESULTS/entropart_DivProf.png",width = mwidth, height = mheight)
-      try(graphics::plot(mDProf),silent=TRUE)
-    grDevices::dev.off()
+  if(getPlot[4] == TRUE){
+    R.devices::devEval(type = formatType, name = "entropart_DivProf",
+     aspectRatio = mheight / mwidth,
+     scale = do.call(function(){if((mheight / mwidth) <= 1) {
+       x <- max(mheight / 480, mwidth / 480)} else {
+         x <- min(mheight / 480, mwidth / 480)}
+       return(x)}, list())
+     , path = file.path(getwd(), subDir), {
+      try(graphics::plot(mDProf), silent = TRUE)
+     }
+    )
   }
 
-  if(getTextSink[4]==TRUE){
+  if(getTextSink[4] == TRUE){
     sink('RESULTS/entropart_DivProf.txt')
       cat('\n#######################\n### SUMMARY         ###\n#######################\n')
-      try(summary(mDProf),silent=TRUE)
+      try(summary(mDProf), silent = TRUE)
       cat('\n#######################\n### RESULTS         ###\n#######################\n')
-      try(print(mDProf),silent=TRUE)
+      try(print(mDProf), silent = TRUE)
     sink()
   }
 

@@ -9,9 +9,9 @@ preProcTxt(filetxt, encodingIn = "UTF-8", encodingOut = "UTF-8")
 \arguments{
 \item{filetxt}{A character containing the name of a txt file.}
 
-\item{encodingIn}{Encoding of the text file (default="UTF-8").}
+\item{encodingIn}{Encoding of the text file (default = "UTF-8").}
 
-\item{encodingOut}{Encoding of the text extracted (default="UTF-8").}
+\item{encodingOut}{Encoding of the text extracted (default = "UTF-8").}
 }
 \value{
 A character vector with the content of the pre-process txt file (one element per line).
@@ -20,8 +20,11 @@ A character vector with the content of the pre-process txt file (one element per
 Extract text from txt files and pre-process content.
 }
 \examples{
-\dontrun{
-preProcTxt(filetxt="loremIpsum.txt")
-}
+data("loremIpsum")
+subDir <- "RESULTS"
+dir.create(file.path(getwd(), subDir), showWarnings = FALSE)
+write(x = loremIpsum, file = "RESULTS/loremIpsum.txt")
+preProcTxt(filetxt = paste0(getwd(), "/RESULTS/loremIpsum.txt"))
+file.remove(list.files(pattern = "loremIpsum"))
 }
 

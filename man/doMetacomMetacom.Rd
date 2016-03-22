@@ -5,7 +5,7 @@
 \title{Performs a metacomunity analysis.}
 \usage{
 doMetacomMetacom(wordF, numSim = 10, limit = "Inf", getPlot = TRUE,
-  getTextSink = TRUE, mwidth = 800, mheight = 800)
+  getTextSink = TRUE, mwidth = 800, mheight = 800, formatType = "png")
 }
 \arguments{
 \item{wordF}{The data.frame containing word occurrences.}
@@ -21,6 +21,8 @@ doMetacomMetacom(wordF, numSim = 10, limit = "Inf", getPlot = TRUE,
 \item{mwidth}{The width of the plot in pixels.}
 
 \item{mheight}{The height of the plot in pixels.}
+
+\item{formatType}{The format for the output file ("eps", "pdf", "png", "svg", "tiff", "jpeg", "bmp").}
 }
 \value{
 An object of class \code{\link[metacom]{Metacommunity}}.
@@ -30,8 +32,22 @@ Use the package \code{\link[metacom]{Metacommunity}} to analyse the word-occurre
    considering words as species and documents as communities.
 }
 \examples{
-\dontrun{
-doMetacomMetacom(wordF=myDF)
-}
+data("loremIpsum")
+loremIpsum01 <- loremIpsum[1:100]
+loremIpsum02 <- loremIpsum[101:200]
+loremIpsum03 <- loremIpsum[201:300]
+loremIpsum04 <- loremIpsum[301:400]
+loremIpsum05 <- loremIpsum[401:500]
+subDir <- "RESULTS"
+dir.create(file.path(getwd(), subDir), showWarnings = FALSE)
+write(x = loremIpsum01, file = "RESULTS/loremIpsum01.txt")
+write(x = loremIpsum02, file = "RESULTS/loremIpsum02.txt")
+write(x = loremIpsum03, file = "RESULTS/loremIpsum03.txt")
+write(x = loremIpsum04, file = "RESULTS/loremIpsum04.txt")
+write(x = loremIpsum05, file = "RESULTS/loremIpsum05.txt")
+wordOccuDF <- getwordOccuDF(mywd = paste0(getwd(), "/RESULTS"), 
+  excludeSW = FALSE)
+file.remove(list.files(pattern = "loremIpsum"))
+doMetacomMetacom(wordF = wordOccuDF)
 }
 

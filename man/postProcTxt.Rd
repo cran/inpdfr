@@ -16,18 +16,21 @@ postProcTxt(txt, minword = 1, maxword = 20, minFreqWord = 1)
 \item{minFreqWord}{An integer specifying the minimum word frequency into the returned data.frame.}
 }
 \value{
-A data.frame (freq= occurrences, stem= stem words, word= words), sorted by word occurrences.
+A data.frame (freq = occurrences, stem = stem words, word = words), sorted by word occurrences.
 }
 \description{
 Prossess vectors containing words into a data.frame of word occurrences.
 }
 \examples{
 \dontrun{
-postProcTxt(txt=preProcTxt(filetxt="loremIpsum.txt"),minword=1,maxword=20,minFreqWord=1)
+postProcTxt(txt = preProcTxt(filetxt = "loremIpsum.txt"))
 }
-\dontrun{
-data(loremIpsum)
-postProcTxt(txt=loremIpsum,minword=1,maxword=20,minFreqWord=1)
-}
+data("loremIpsum")
+subDir <- "RESULTS"
+dir.create(file.path(getwd(), subDir), showWarnings = FALSE)
+write(x = loremIpsum, file = "RESULTS/loremIpsum.txt")
+preProcTxt(filetxt = paste0(getwd(), "/RESULTS/loremIpsum.txt"))
+postProcTxt(txt = preProcTxt(filetxt = paste0(getwd(), "/RESULTS/loremIpsum.txt")))
+file.remove(list.files(pattern = "loremIpsum"))
 }
 

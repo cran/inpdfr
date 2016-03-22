@@ -4,8 +4,8 @@
 \alias{getSummaryStatsBARPLOT}
 \title{Perform a barplot with the number of unique words per document}
 \usage{
-getSummaryStatsBARPLOT(wordF, getPlot = TRUE, mwidth = 800, mheight = 800,
-  ...)
+getSummaryStatsBARPLOT(wordF, getPlot = TRUE, mwidth = 480, mheight = 480,
+  formatType = "png", ...)
 }
 \arguments{
 \item{wordF}{The data.frame containing word occurrences.}
@@ -16,6 +16,8 @@ getSummaryStatsBARPLOT(wordF, getPlot = TRUE, mwidth = 800, mheight = 800,
 
 \item{mheight}{The height of the plot in pixels.}
 
+\item{formatType}{The format for the output file ("eps", "pdf", "png", "svg", "tiff", "jpeg", "bmp").}
+
 \item{...}{Additional arguments from \code{barplot} function.}
 }
 \value{
@@ -25,8 +27,22 @@ The number of unique words per document.
 Perform a barplot with the number of unique words per document using \code{\link[graphics]{barplot}} function.
 }
 \examples{
-\dontrun{
-getSummaryStatsBARPLOT(wordF=myDF)
-}
+data("loremIpsum")
+loremIpsum01 <- loremIpsum[1:100]
+loremIpsum02 <- loremIpsum[101:200]
+loremIpsum03 <- loremIpsum[201:300]
+loremIpsum04 <- loremIpsum[301:400]
+loremIpsum05 <- loremIpsum[401:500]
+subDir <- "RESULTS"
+dir.create(file.path(getwd(), subDir), showWarnings = FALSE)
+write(x = loremIpsum01, file = "RESULTS/loremIpsum01.txt")
+write(x = loremIpsum02, file = "RESULTS/loremIpsum02.txt")
+write(x = loremIpsum03, file = "RESULTS/loremIpsum03.txt")
+write(x = loremIpsum04, file = "RESULTS/loremIpsum04.txt")
+write(x = loremIpsum05, file = "RESULTS/loremIpsum05.txt")
+wordOccuDF <- getwordOccuDF(mywd = paste0(getwd(), "/RESULTS"), 
+  excludeSW = FALSE)
+file.remove(list.files(pattern = "loremIpsum"))
+getSummaryStatsBARPLOT(wordF = wordOccuDF)
 }
 

@@ -20,44 +20,44 @@
 #' @return A list of list with word-occurrence data.frame and file name.
 #' @examples
 #' \dontrun{
-#' getPDF(myPDFs="mypdf.pdf")
+#' getPDF(myPDFs = "mypdf.pdf")
 #' }
 #' @export
-getPDF<-function(myPDFs,minword=1,maxword=20,minFreqWord=1,pathToPdftotext=""){
-  ncores<-parallel::detectCores()
-  if(length(myPDFs)<ncores){ncores<-length(myPDFs)}
-  cl<-parallel::makeCluster(ncores)
-  # parallel::clusterExport(cl=cl, varlist=c("minword","maxword","minFreqWord"))  ### for testing purposes
-  parallel::clusterExport(cl=cl, varlist=c("pathToPdftotext", "preProcTxt", "postProcTxt"), envir=environment())
+getPDF <- function(myPDFs, minword = 1, maxword = 20, minFreqWord = 1, pathToPdftotext = ""){
+  ncores <- parallel::detectCores()
+  if(length(myPDFs)<ncores){ncores <- length(myPDFs)}
+  cl <- parallel::makeCluster(ncores)
+  # parallel::clusterExport(cl = cl, varlist = c("minword","maxword","minFreqWord"))  ### for testing purposes
+  parallel::clusterExport(cl = cl, varlist = c("pathToPdftotext", "preProcTxt", "postProcTxt"), envir = environment())
   parallel::clusterEvalQ(cl, {library(tm); library(SnowballC)})
   on.exit(parallel::stopCluster(cl))
-  d<-parallel::parLapply(cl,myPDFs,function(i){ # lapply to all PDF files
+  d <- parallel::parLapply(cl, myPDFs, function(i){ # lapply to all PDF files
     if (Sys.info()[1]=="Windows"){ # extract txt from PDF with Windows
       tryCatch(system(paste0("\"pdftotext\" \"", i, "\""), wait = TRUE),
-        error=system(paste("\"", pathToPdftotext, "\" \"", i, "\"", sep = ""), wait = TRUE))
+        error = system(paste("\"", pathToPdftotext, "\" \"", i, "\"", sep = ""), wait = TRUE))
       # system(paste("\"", pathToPdftotext, "\" \"", i, "\"", sep = ""), wait = TRUE)
     }else{
       if (Sys.info()[1]=="Linux"){
-        system(paste("pdftotext" ,i,sep=" "), wait = TRUE) # extract txt from PDF with Linux
+        system(paste("pdftotext" , i, sep = " "), wait = TRUE) # extract txt from PDF with Linux
       }else{ ### MacOS = "/"
-        system(paste("pdftotext" ,i,sep=" "), wait = TRUE) # extract txt from PDF with Mac OSX
+        system(paste("pdftotext" , i, sep = " "), wait = TRUE) # extract txt from PDF with Mac OSX
       }
     }
-    filetxt <- paste(strsplit(i,split="\\.")[[1]][1],".txt",sep="")
-    txt<-preProcTxt(filetxt)
+    filetxt <- paste(strsplit(i, split = "\\.")[[1]][1], ".txt", sep = "")
+    txt <- preProcTxt(filetxt)
     if (length(txt)<5){
       print(paste0("File ", filetxt, " does not contain text and will be ignored."))
-      txt<-NULL
+      txt <- NULL
       file.remove(filetxt)
     }
-    d1<-postProcTxt(txt=txt,minword=minword,maxword=maxword,minFreqWord=minFreqWord)
-    d2<-strsplit(filetxt,split="\\.")[[1]][1]
-    d<-list(wc=d1,name=d2)
-    if(nrow(d[[1]])==0){d<-NULL}
+    d1 <- postProcTxt(txt = txt, minword = minword, maxword = maxword, minFreqWord = minFreqWord)
+    d2 <- strsplit(filetxt, split = "\\.")[[1]][1]
+    d <- list(wc = d1, name = d2)
+    if(nrow(d[[1]])==0){d <- NULL}
     file.remove(filetxt) # remove file
     return(d)
   })
-  d<-d[vapply(d, Negate(is.null), NA)]
+  d <- d[vapply(d, Negate(is.null), NA)]
   return(d)
 }
 
@@ -67,14 +67,28 @@ getPDF<-function(myPDFs,minword=1,maxword=20,minFreqWord=1,pathToPdftotext=""){
 #'   to these files).
 #' @return A list of list with word-occurrence data.frame and file name.
 #' @examples
-#' \dontrun{
-#' getTXT(myTXTs="mytxt.txt")
-#' }
+#' data("loremIpsum")
+#' loremIpsum01 <- loremIpsum[1:100]
+#' loremIpsum02 <- loremIpsum[101:200]
+#' loremIpsum03 <- loremIpsum[201:300]
+#' loremIpsum04 <- loremIpsum[301:400]
+#' loremIpsum05 <- loremIpsum[401:500]
+#' subDir <- "RESULTS"
+#' dir.create(file.path(getwd(), subDir), showWarnings = FALSE)
+#' write(x = loremIpsum01, file = "RESULTS/loremIpsum01.txt")
+#' write(x = loremIpsum02, file = "RESULTS/loremIpsum02.txt")
+#' write(x = loremIpsum03, file = "RESULTS/loremIpsum03.txt")
+#' write(x = loremIpsum04, file = "RESULTS/loremIpsum04.txt")
+#' write(x = loremIpsum05, file = "RESULTS/loremIpsum05.txt")
+#' wordOccuFreq <- getTXT(myTXTs = list.files(path = paste0(getwd(), 
+#'   "/RESULTS/"), pattern = "loremIpsum", full.names = TRUE))
+#' file.remove(list.files(pattern = "loremIpsum"))
 #' @export
-getTXT<-function(myTXTs){
-	lapply(myTXTs,function(i){
-		txt<-preProcTxt(i)
-		d<-postProcTxt(txt=txt)
-		return(d)
+getTXT <- function(myTXTs){
+	lapply(myTXTs, function(i){
+		txt <- preProcTxt(i)
+		d <- postProcTxt(txt = txt)
+		df <- list(wc = d, name = i)
+		return(df)
 	})
 }
