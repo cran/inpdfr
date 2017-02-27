@@ -44,8 +44,12 @@ doMetacomMetacom <- function(wordF, numSim = 10, limit = "Inf", getPlot = TRUE,
   metacomDB <- wordF[,2:length(wordF[1,])]
   metacomDB[metacomDB >= 1] <- 1
   rownames(metacomDB) <- wordF[,1]
-  metacomDB <- t(metacomDB)
-  metaCom <- metacom::Metacommunity(comm = metacomDB, sims = numSim, allowEmpty = TRUE)
+  # metacomDB <- t(metacomDB)
+  metaCom <- "Word occurrence matrix problem. See package metacom manual."
+  try(
+    metaCom <- suppressWarnings(metacom::Metacommunity(comm = metacomDB, sims = numSim, allowEmpty = TRUE)), 
+    silent = TRUE
+  )
 
   if(getPlot == TRUE){
     R.devices::devEval(type = formatType, name = "metacom_Metacommunity",
@@ -63,7 +67,7 @@ doMetacomMetacom <- function(wordF, numSim = 10, limit = "Inf", getPlot = TRUE,
   if(getTextSink == TRUE){
     sink('RESULTS/metacom_Metacommunity.txt')
     cat('\n#######################\n### STRUCTURE       ###\n#######################\n')
-    try(print(metacom::IdentifyStructure(metaCom)), silent = TRUE)
+    try(print(IdentifyStructure(metaCom)), silent = TRUE)
     cat('\n#######################\n### SUMMARY         ###\n#######################\n')
     try(print(summary(metaCom)), silent = TRUE)
     cat('\n#######################\n### RESULTS         ###\n#######################\n')
@@ -71,7 +75,7 @@ doMetacomMetacom <- function(wordF, numSim = 10, limit = "Inf", getPlot = TRUE,
     sink()
   }
 
-  try(print(paste0("Identified community structure: ", metacom::IdentifyStructure(metaCom))), silent = TRUE)
+  try(print(paste0("Identified community structure: ", IdentifyStructure(metaCom))), silent = TRUE)
 
   metaComPkg <- metaCom
   return(metaComPkg)

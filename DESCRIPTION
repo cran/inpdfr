@@ -1,8 +1,8 @@
 Package: inpdfr
 Type: Package
 Title: Analyse Text Documents Using Ecological Tools
-Version: 0.1.3
-Date: 2016-04-17
+Version: 0.1.5
+Date: 2017-02-27
 Author: Rebaudo Francois (IRD, UMR EGCE, Univ.ParisSud-CNRS-IRD-
     Univ.ParisSaclay)
 Maintainer: Rebaudo Francois <francois.rebaudo@ird.fr>
@@ -18,8 +18,8 @@ Imports: wordcloud (>= 2.5), RColorBrewer (>= 1.1-2), tm (>= 0.6-2),
 SystemRequirements: XPDF (http://www.foolabs.com/xpdf/download.html)
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2016-04-17 22:55:27 UTC; rebaudo
+Packaged: 2017-02-27 20:18:16 UTC; rebaudo
 Repository: CRAN
-Date/Publication: 2016-04-18 08:45:42
+Date/Publication: 2017-02-27 21:48:03
