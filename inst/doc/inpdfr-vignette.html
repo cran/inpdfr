@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="François Rebaudo, Institut de Recherche pour le Développement, UMR EGCE, Univ.Paris Sud-CNRS-IRD-Univ.Paris Saclay, France" />
 
-<meta name="date" content="2017-02-27" />
+<meta name="date" content="2017-12-20" />
 
 <title>Introduction to inpdfr package</title>
 
@@ -32,7 +32,7 @@
 
 <h1 class="title toc-ignore">Introduction to inpdfr package</h1>
 <h4 class="author"><em>François Rebaudo, Institut de Recherche pour le Développement, UMR EGCE, Univ.Paris Sud-CNRS-IRD-Univ.Paris Saclay, France</em></h4>
-<h4 class="date"><em>2017-02-27</em></h4>
+<h4 class="date"><em>2017-12-20</em></h4>
 
 
 
@@ -355,7 +355,7 @@ getMostFreqWord(wordF = mergedDNorm, numWords = 10)
 </div>
 <div id="using-inpdfr-from-the-graphical-user-interface-gui" class="section level2">
 <h2>2. Using inpdfr from the Graphical User Interface (GUI)</h2>
-<p>To load the RGtk2 GUI, use the function <code>loadGUI</code>:</p>
+<p>To load the RGtk2 GUI, use the function <code>loadGUI</code> available only in the gitHub webpage (<a href="https://github.com/frareb/inpdfr" class="uri">https://github.com/frareb/inpdfr</a>):</p>
 <pre><code>loadGUI()</code></pre>
 <p>All function used to build the GUI were made available so that any developer can easily access its content. They are not intended to be used by end users, but given the scarcity of RGtk2 resources in the web, I thought they should be available in this package in the hope they could be usefull for other projects. Please feel free to use them under the terms of the package licence, but do not expect backward compatibility in future versions of this package. These functions are listed below:</p>
 <ul>
@@ -381,7 +381,7 @@ getMostFreqWord(wordF = mergedDNorm, numWords = 10)
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

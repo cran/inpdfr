@@ -1,5 +1,9 @@
+## package inpdfr v0.1.6 (bug-fix release)
+* fix WARN "working directory change"
+* GUI using RGtk2 no longer part of the package
+
 ## package inpdfr v0.1.5
-* fixed bug in doMetacomMetacom(wordF = wordOccuDF)
+* fix bug in doMetacomMetacom(wordF = wordOccuDF)
 
 ## package inpdfr v0.1.4
 * identifyStructure function included in the package
