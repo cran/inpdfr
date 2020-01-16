@@ -5,6 +5,7 @@
 #' @param encodingOut Encoding of the text extracted (default = "UTF-8").
 #' @return A character vector with the content of the pre-process txt file (one element per line).
 #' @examples
+#' \dontrun{
 #' data("loremIpsum")
 #' subDir <- "RESULTS"
 #' dir.create(file.path(getwd(), subDir), showWarnings = FALSE)
@@ -12,10 +13,12 @@
 #' preProcTxt(filetxt = paste0(getwd(), "/RESULTS/loremIpsum.txt"))
 #' file.remove(list.files(full.names = TRUE, 
 #'   path = paste0(getwd(), "/RESULTS"), pattern = "loremIpsum"))
+#' }
 #' @export
 preProcTxt <- function(filetxt, encodingIn = "UTF-8", encodingOut = "UTF-8"){
   zz <- file(filetxt, 'r', encoding = encodingIn)
-  txt <- readChar(zz, file.info(filetxt)$size)
+  # txt <- readChar(zz, file.info(filetxt)$size)
+  txt <- paste(readLines(filetxt), collapse = " ")
   close(zz)
   Encoding(txt) <- encodingOut
   txt <- strsplit(txt, split = "\\.")[[1]]
@@ -50,13 +53,14 @@ preProcTxt <- function(filetxt, encodingIn = "UTF-8", encodingOut = "UTF-8"){
 #'   preProcTxt(filetxt = paste0(getwd(), "/RESULTS/loremIpsum.txt")))
 #' file.remove(list.files(full.names = TRUE, 
 #'   path = paste0(getwd(), "/RESULTS"), pattern = "loremIpsum"))
+#' }
 #' @export
 postProcTxt <- function(txt, minword = 1, maxword = 20, minFreqWord = 1){
   txtMerged <- paste(txt, collapse = ' ')
   txtMerged <- gsub("[[:punct:]]", " ", txtMerged) # remove punctuation with gsub
   txtMerged <- gsub("[^[:alnum:]]", " ", txtMerged) # remove all non-alphanumeric characters
 
-  corpus <- tm::Corpus(tm::VectorSource(txtMerged))
+  corpus <- tm::VCorpus(tm::VectorSource(txtMerged))
   corpus <- tm::tm_map(corpus, tm::removePunctuation) # remove punctuation with removePunctuation from package tm
   tdm <- tm::TermDocumentMatrix(corpus)
   m <- as.matrix(tdm)

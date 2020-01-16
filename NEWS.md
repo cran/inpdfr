@@ -1,3 +1,16 @@
+## package inpdfr v0.1.11
+* no more RESULTS directory
+
+## package inpdfr v0.1.10
+* fixed URLs
+* fixed dir RESULTS in examples
+* fixed invalid printing width in examples
+
+## package inpdfr v0.1.9
+* used VCorpus instead of Corpus
+* readLines instead of readChar
+* NOT fixed running examples in 'doCA' (Running examples failed)
+
 ## package inpdfr v0.1.8
 * fix calling if() with a vector of length 2 or more
 

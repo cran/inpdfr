@@ -13,7 +13,7 @@ getListFiles <- function(mywd){
   listFiles <- list.files(path = paste0(mywd, "/"), pattern = "\\.")
   listFiles <- grep(listFiles, pattern = 'entropart', invert = TRUE, value = TRUE)
   listFiles <- grep(listFiles, pattern = 'metacom', invert = TRUE, value = TRUE)
-  # exclude txt files which redults from entropart and metacom
+  # exclude txt files which result from entropart and metacom
   listFilesExt <- list(pdf = c(), txt = c())
   for(i in listFiles){
     myplitExt <- strsplit(i, split = "\\.")[[1]][2]
@@ -32,7 +32,9 @@ getListFiles <- function(mywd){
 #' @return The function returns a logical for each file, with TRUE if the file
 #'   has been found, and FALSE otherwise.
 #' @examples
+#' \dontrun{
 #' quitSpaceFromChars(c("my pdf.pdf","my other pdf.pdf"))
+#' }
 #' @export
 quitSpaceFromChars <- function(vectxt){ # delete spaces from file names, adapted from : https://gist.github.com/benmarwick/11333467
   isRenamed <- sapply(vectxt, FUN = function(i){
